@@ -52,3 +52,15 @@ CREATE TABLE IF NOT EXISTS house_data.counties (
     county TEXT NOT NULL,
     PRIMARY KEY (county_id)
 );
+
+CREATE TABLE IF NOT EXISTS house_data.property_types (
+    property_type VARCHAR(32) NOT NULL,
+    property_type_code CHAR(1) NOT NULL,
+    PRIMARY KEY (property_type_code)
+);
+
+CREATE TABLE IF NOT EXISTS house_data.tenures (
+    tenure_code CHAR(1) NOT NULL,
+    tenure_name VARCHAR(10) NOT NULL,
+    PRIMARY KEY (tenure_code)
+);
