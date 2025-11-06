@@ -64,3 +64,23 @@ CREATE TABLE IF NOT EXISTS house_data.tenures (
     tenure_name VARCHAR(10) NOT NULL,
     PRIMARY KEY (tenure_code)
 );
+
+SET DATETYPE TO 'European';
+
+CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
+    sale_id TEXT NOT NULL,
+    price INT NOT NULL,
+    "date" DATE NOT NULL,
+    property_type_code CHAR(1) NOT NULL,
+    new_build BOOLEAN NOT NULL,
+    district_id TEXT NOT NULL,
+    tenure_code CHAR(1) NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS house_data.districts (
+    district_id SMALLSERIAL,
+    lad23cd VARCHAR(9) UNIQUE NOT NULL,
+    district TEXT NOT NULL,
+    county_id INT NOT NULL,
+);
+
