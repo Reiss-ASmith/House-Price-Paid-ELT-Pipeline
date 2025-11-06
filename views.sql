@@ -22,3 +22,8 @@ SELECT district, COUNT(*)
 FROM house_data.house_price_paid
 GROUP BY district;
 
+DROP VIEW IF EXISTS total_number_of_sales_per_county;
+CREATE VIEW total_number_of_sales_per_county AS
+SELECT county, COUNT(*)
+FROM house_data.house_price_paid
+GROUP BY county;
