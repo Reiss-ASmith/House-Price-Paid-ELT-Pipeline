@@ -6,9 +6,10 @@ DROP SCHEMA IF EXISTS raw_house_data CASCADE;
 CREATE SCHEMA IF NOT EXISTS house_data;
 CREATE SCHEMA IF NOT EXISTS raw_house_data;
 
+--changes date format from YYYY/MM/DD to DD/MM/YYYY
 SET DateStyle TO 'European';
 
--- raw_house_data schema creation
+-- TABLE CREATION FOR THE TABLES IN RAW_HOUSE_DATA SCHEMA
 --creates a temporary table used to store the raw data from the local_authority_district_map file later
 CREATE TABLE IF NOT EXISTS raw_house_data.local_authority_districts_map (
     Fid int NOT NULL UNIQUE,
@@ -49,21 +50,26 @@ CREATE TABLE IF NOT EXISTS raw_house_data.house_price_paid (
 COPY raw_house_data.local_authority_districts_map FROM '/imports/local_authority_districts_map.csv' WITH DELIMITER ',' csv HEADER;
 COPY raw_house_data.house_price_paid FROM '/imports/pp-2025.csv' DELIMITER ',' csv HEADER;
 
+-- TABLE CREATION FOR THE TABLES IN THE HOUSE_DATA SCHEMA
+--creates a counties table
 CREATE TABLE IF NOT EXISTS house_data.counties (
     county_id SMALLSERIAL PRIMARY KEY,
     county TEXT NOT NULL
 );
 
+--creates a table to act as a key explaining the property type codes
 CREATE TABLE IF NOT EXISTS house_data.property_types (
     property_type VARCHAR(32) NOT NULL,
     property_type_code CHAR(1) PRIMARY KEY
 );
 
+--creates a table to act as a key explaining the property tenure
 CREATE TABLE IF NOT EXISTS house_data.tenures (
     tenure_code CHAR(1) PRIMARY KEY,
     tenure_name VARCHAR(10) NOT NULL
 );
 
+--creates a table to store district information that references the county table
 CREATE TABLE IF NOT EXISTS house_data.districts (
     district_id SMALLSERIAL PRIMARY KEY,
     lad23cd VARCHAR(9) UNIQUE NOT NULL,
@@ -71,6 +77,7 @@ CREATE TABLE IF NOT EXISTS house_data.districts (
     county_id INT REFERENCES house_data.counties(county_id)
 );
 
+--creates a table for the house price paid data that references other tables
 CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
     sale_id TEXT PRIMARY KEY,
     price INT NOT NULL,
@@ -81,10 +88,13 @@ CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
     tenure_code CHAR(1) REFERENCES house_data.tenures(tenure_code)
 );
 
+-- INSERTING DATA INTO TABLES
+--inserts data into the county table
 INSERT INTO house_data.counties(county)
 SELECT DISTINCT county
 FROM raw_house_data.house_price_paid;
 
+--inserts data into the districts table using a CTE
 WITH district_table_data AS(
     SELECT DISTINCT r.district AS district, r.county, co.county_id, lad.LAD23CD
     FROM raw_house_data.house_price_paid AS r
@@ -95,6 +105,7 @@ WITH district_table_data AS(
  SELECT LAD23CD, district, county_id
  FROM district_table_data;
 
+--inserts data into the property_types table
 INSERT INTO house_data.property_types(property_type, property_type_code)
 VALUES
 ('Detached', 'D'),
@@ -103,9 +114,11 @@ VALUES
 ('Flat/Maisonette', 'F'),
 ('Other', 'O');
 
+--inserts data into the tenures table
 INSERT INTO house_data.tenures(tenure_code, tenure_name)
 VALUES
 ('F', 'Freehold'),
 ('L', 'Leasehold');
 
+--deletes the raw_house_data schema
 DROP SCHEMA IF EXISTS raw_house_data CASCADE;
