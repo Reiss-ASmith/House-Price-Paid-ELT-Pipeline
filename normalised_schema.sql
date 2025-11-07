@@ -107,3 +107,5 @@ INSERT INTO house_data.tenures(tenure_code, tenure_name)
 VALUES
 ('F', 'Freehold'),
 ('L', 'Leasehold');
+
+DROP SCHEMA IF EXISTS raw_house_data CASCADE;
