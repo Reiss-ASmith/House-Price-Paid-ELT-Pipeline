@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
     tenure_code CHAR(1) REFERENCES house_data.tenures(tenure_code)
 ) PARTITION BY RANGE("date");
 
+--partitions the house_price_paid table by year
 CREATE TABLE house_data.house_price_paid_2025 PARTITION OF house_data.house_price_paid
     FOR VALUES FROM ('01-01-2025') TO ('01-01-2026');
 
@@ -145,6 +146,14 @@ d.district_id,
 r.tenure
 FROM raw_house_data.house_price_paid AS r 
 JOIN house_data.districts as d ON UPPER(TRIM(d.district)) = UPPER(TRIM(r.district));
+
+--creates index on the date column in the house_price_paid table
+DROP INDEX IF EXISTS date_index;
+CREATE INDEX date_index ON house_data.house_price_paid ("date");
+
+--creates index on the district id column in the house_price_paid table
+DROP INDEX IF EXISTS district_id_index;
+CREATE INDEX district_id_index ON house_data.house_price_paid (district_id);
 
 --deletes the raw_house_data schema
 DROP SCHEMA IF EXISTS raw_house_data CASCADE;
