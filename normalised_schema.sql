@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS house_data.tenures (
     PRIMARY KEY (tenure_code)
 );
 
-SET DATETYPE TO 'European';
+SET DateStyle TO 'European';
 
 CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
     sale_id TEXT NOT NULL,
@@ -99,4 +99,16 @@ WITH district_table_data AS(
  INSERT INTO house_data.districts(lad23cd, district, county_id)
  SELECT LAD23CD, district, county_id
  FROM district_table_data;
- 
+
+INSERT INTO house_data.property_types(property_type, property_type_code)
+VALUES
+('Detached', 'D'),
+('Semi-Detached', 'S'),
+('Terraced', 'T'),
+('Flat/Maisonette', 'F'),
+('Other', 'O');
+
+INSERT INTO house_data.tenures(tenure_code, tenure_name)
+VALUES
+('F', 'Freehold'),
+('L', 'Leasehold');
