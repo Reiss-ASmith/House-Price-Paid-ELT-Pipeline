@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
     new_build BOOLEAN NOT NULL,
     district_id INT REFERENCES house_data.districts(district_id),
     tenure_code CHAR(1) REFERENCES house_data.tenures(tenure_code)
-);
+) PARTITION BY RANGE("date");
 
 -- INSERTING DATA INTO TABLES
 --inserts data into the county table
@@ -116,6 +116,7 @@ VALUES
 ('F', 'Freehold'),
 ('L', 'Leasehold');
 
+--inserts data into the house_price_paid table by using columns from two tables
 INSERT INTO house_data.house_price_paid(sale_id, price, "date", property_type_code, new_build, district_id, tenure_code)
 SELECT r.sale_id,
 r.price,
