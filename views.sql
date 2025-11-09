@@ -1,9 +1,9 @@
 DROP VIEW IF EXISTS median_price_per_district_2025;
 CREATE VIEW median_price_per_district_2025 AS 
-SELECT district, ROUND(percentile_cont(0.5) WITHIN GROUP(ORDER BY price)::numeric, 2) AS median_price
+SELECT lad23cd, district, ROUND(percentile_cont(0.5) WITHIN GROUP(ORDER BY price)::numeric, 2) AS median_price
 FROM house_data.house_price_paid_2025 AS p
 JOIN house_data.districts AS d ON d.district_id = p.district_id
-GROUP BY district;
+GROUP BY district, lad23cd;
 
 DROP VIEW IF EXISTS median_price_per_county_2025;
 CREATE VIEW median_price_per_county_2025 AS
@@ -21,10 +21,10 @@ GROUP BY EXTRACT('MONTH' FROM "date");
 
 DROP VIEW IF EXISTS total_sales_per_district_2025;
 CREATE VIEW total_sales_per_district_2025 AS
-SELECT district, COUNT(*) AS total_house_sales
+SELECT lad23cd, district, COUNT(*) AS total_house_sales
 FROM house_data.house_price_paid_2025 AS p
 JOIN house_data.districts AS d ON d.district_id = p.district_id
-GROUP BY district;
+GROUP BY district, lad23cd;
 
 DROP VIEW IF EXISTS total_sales_per_county_2025;
 CREATE VIEW total_sales_per_county_2025 AS
