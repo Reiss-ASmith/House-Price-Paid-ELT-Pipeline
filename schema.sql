@@ -50,20 +50,20 @@ COPY raw_house_data.house_price_paid FROM '/imports/pp-complete.csv' DELIMITER '
 -- TABLE CREATION FOR THE TABLES IN THE HOUSE_DATA SCHEMA
 --creates a counties table
 CREATE TABLE IF NOT EXISTS house_data.counties (
-    county_id SMALLSERIAL PRIMARY KEY,
-    county TEXT NOT NULL
+    county_id SMALLSERIAL UNIQUE PRIMARY KEY,
+    county TEXT UNIQUE NOT NULL
 );
 
 --creates a table to act as a key explaining the property type codes
 CREATE TABLE IF NOT EXISTS house_data.property_types (
-    property_type VARCHAR(32) NOT NULL,
-    property_type_code CHAR(1) PRIMARY KEY
+    property_type VARCHAR(32) UNIQUE NOT NULL,
+    property_type_code CHAR(1) UNIQUE PRIMARY KEY
 );
 
 --creates a table to act as a key explaining the property tenure
 CREATE TABLE IF NOT EXISTS house_data.tenures (
-    tenure_code CHAR(1) PRIMARY KEY,
-    tenure_name VARCHAR(10) NOT NULL
+    tenure_code CHAR(1) UNIQUE PRIMARY KEY,
+    tenure_name VARCHAR(10) UNIQUE NOT NULL
 );
 
 --creates a table to store district information that references the county table
