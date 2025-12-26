@@ -89,23 +89,22 @@ CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
 ) PARTITION BY RANGE("date");
 
 --partitions the house_price_paid table by year
-CREATE TABLE house_data.house_price_paid_2025 PARTITION OF house_data.house_price_paid
-    FOR VALUES FROM ('01-01-2025') TO ('01-01-2026');
-
-CREATE TABLE house_data.house_price_paid_2024 PARTITION OF house_data.house_price_paid
-    FOR VALUES FROM ('01-01-2024') TO ('01-01-2025');
-
-CREATE TABLE house_data.house_price_paid_2023 PARTITION OF house_data.house_price_paid
-    FOR VALUES FROM ('01-01-2023') TO ('01-01-2024');
-
-CREATE TABLE house_data.house_price_paid_2022 PARTITION OF house_data.house_price_paid
-    FOR VALUES FROM ('01-01-2022') TO ('01-01-2023');
-
-CREATE TABLE house_data.house_price_paid_2021 PARTITION OF house_data.house_price_paid
-    FOR VALUES FROM ('01-01-2021') TO ('01-01-2022');
-
-CREATE TABLE house_data.house_price_paid_2020 PARTITION OF house_data.house_price_paid
-    FOR VALUES FROM ('01-01-2020') TO ('01-01-2021');
+DO $$
+DECLARE
+    y int;
+    end_year int := extract(year from current_date)::int + 1;
+BEGIN
+    FOR y IN 1995..end_year LOOP
+        EXECUTE format(
+            'CREATE TABLE IF NOT EXISTS house_data.house_price_paid_%s
+            PARTITION OF house_data.house_price_paid
+            FOR VALUES FROM (%L) TO (%L);',
+            y,
+            make_date(y, 1, 1),
+            make_date(y+1, 1, 1)
+        );
+    END LOOP;
+END $$;
 
 -- INSERTING DATA INTO TABLES
 --inserts data into the county table
