@@ -6,9 +6,6 @@ DROP SCHEMA IF EXISTS raw_house_data CASCADE;
 CREATE SCHEMA IF NOT EXISTS house_data;
 CREATE SCHEMA IF NOT EXISTS raw_house_data;
 
---changes date format from YYYY/MM/DD to DD/MM/YYYY
-SET DateStyle TO 'European';
-
 -- TABLE CREATION FOR THE TABLES IN RAW_HOUSE_DATA SCHEMA
 --creates a temporary table used to store the raw data from the local_authority_district_map file later
 CREATE TABLE IF NOT EXISTS raw_house_data.local_authority_districts_map (
@@ -147,12 +144,10 @@ FROM raw_house_data.house_price_paid AS r
 JOIN house_data.districts as d ON UPPER(TRIM(d.district)) = UPPER(TRIM(r.district));
 
 --creates index on the date column in the house_price_paid table
-DROP INDEX IF EXISTS date_index;
-CREATE INDEX date_index ON house_data.house_price_paid ("date");
+CREATE INDEX IF NOT EXISTS date_index ON house_data.house_price_paid ("date");
 
 --creates index on the district id column in the house_price_paid table
-DROP INDEX IF EXISTS district_id_index;
-CREATE INDEX district_id_index ON house_data.house_price_paid (district_id);
+CREATE INDEX IF NOT EXISTS district_id_index ON house_data.house_price_paid (district_id);
 
 --deletes the raw_house_data schema
 DROP SCHEMA IF EXISTS raw_house_data CASCADE;
