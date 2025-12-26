@@ -107,7 +107,8 @@ END $$;
 --inserts data into the county table
 INSERT INTO house_data.counties(county)
 SELECT DISTINCT county
-FROM raw_house_data.house_price_paid;
+FROM raw_house_data.house_price_paid
+ON CONFLICT (county) DO NOTHING;
 
 --inserts data into the districts table by joining three tables together for the required columns
 INSERT INTO house_data.districts(lad23cd, district, county_id)
@@ -123,13 +124,15 @@ VALUES
 ('Semi-Detached', 'S'),
 ('Terraced', 'T'),
 ('Flat/Maisonette', 'F'),
-('Other', 'O');
+('Other', 'O')
+ON CONFLICT (property_type_code) DO NOTHING;
 
 --inserts data into the tenures table
 INSERT INTO house_data.tenures(tenure_code, tenure_name)
 VALUES
 ('F', 'Freehold'),
-('L', 'Leasehold');
+('L', 'Leasehold')
+ON CONFLICT (tenure_code) DO NOTHING;
 
 --inserts data into the house_price_paid table by using columns from two tables
 INSERT INTO house_data.house_price_paid(sale_id, price, "date", property_type_code, new_build, district_id, tenure_code)
