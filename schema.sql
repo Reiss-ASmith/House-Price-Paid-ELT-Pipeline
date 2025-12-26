@@ -48,12 +48,7 @@ CREATE TABLE IF NOT EXISTS raw_house_data.house_price_paid (
 
 --imports files into tables above
 COPY raw_house_data.local_authority_districts_map FROM '/imports/local_authority_districts_map.csv' WITH DELIMITER ',' csv HEADER;
-COPY raw_house_data.house_price_paid FROM '/imports/pp-2025.csv' DELIMITER ',' csv HEADER;
-COPY raw_house_data.house_price_paid FROM '/imports/pp-2024.csv' DELIMITER ',' csv;
-COPY raw_house_data.house_price_paid FROM '/imports/pp-2023.csv' DELIMITER ',' csv;
-COPY raw_house_data.house_price_paid FROM '/imports/pp-2022.csv' DELIMITER ',' csv;
-COPY raw_house_data.house_price_paid FROM '/imports/pp-2021.csv' DELIMITER ',' csv;
-COPY raw_house_data.house_price_paid FROM '/imports/pp-2020.csv' DELIMITER ',' csv;
+COPY raw_house_data.house_price_paid FROM '/imports/pp-complete.csv' DELIMITER ',' csv;
 
 -- TABLE CREATION FOR THE TABLES IN THE HOUSE_DATA SCHEMA
 --creates a counties table
