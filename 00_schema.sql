@@ -100,6 +100,3 @@ CREATE INDEX IF NOT EXISTS date_index ON house_data.house_price_paid ("date");
 
 --creates index on the district id column in the house_price_paid table
 CREATE INDEX IF NOT EXISTS district_id_index ON house_data.house_price_paid (district_id);
-
---deletes the raw_house_data schema
-DROP SCHEMA IF EXISTS raw_house_data CASCADE;
