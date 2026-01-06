@@ -1,3 +1,4 @@
+
 --creates schemas for data imports
 CREATE SCHEMA IF NOT EXISTS house_data;
 CREATE SCHEMA IF NOT EXISTS raw_house_data;
@@ -68,13 +69,14 @@ CREATE TABLE IF NOT EXISTS house_data.districts (
 
 --creates a table for the house price paid data that references other tables
 CREATE TABLE IF NOT EXISTS house_data.house_price_paid (
-    sale_id TEXT,
+    sale_id TEXT NOT NULL,
     price INT NOT NULL,
     "date" DATE NOT NULL,
     property_type_code CHAR(1) REFERENCES house_data.property_types(property_type_code),
     new_build BOOLEAN NOT NULL,
     district_id INT REFERENCES house_data.districts(district_id),
-    tenure_code CHAR(1) REFERENCES house_data.tenures(tenure_code)
+    tenure_code CHAR(1) REFERENCES house_data.tenures(tenure_code),
+    PRIMARY KEY (sale_id, "date")
 ) PARTITION BY RANGE("date");
 
 --partitions the house_price_paid table by year
@@ -100,3 +102,4 @@ CREATE INDEX IF NOT EXISTS date_index ON house_data.house_price_paid ("date");
 
 --creates index on the district id column in the house_price_paid table
 CREATE INDEX IF NOT EXISTS district_id_index ON house_data.house_price_paid (district_id);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
