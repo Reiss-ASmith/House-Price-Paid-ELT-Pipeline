@@ -27,7 +27,8 @@ ON CONFLICT (property_type_code) DO NOTHING;
 INSERT INTO house_data.tenures(tenure_code, tenure_name)
 VALUES
 ('F', 'Freehold'),
-('L', 'Leasehold')
+('L', 'Leasehold'),
+('U', 'Unknown')
 ON CONFLICT (tenure_code) DO NOTHING;
 
 --inserts data into the house_price_paid table by using columns from two tables
@@ -41,4 +42,4 @@ d.district_id,
 r.tenure
 FROM raw_house_data.house_price_paid AS r 
 JOIN house_data.districts as d ON UPPER(TRIM(d.district)) = UPPER(TRIM(r.district))
-ON CONFLICT (r.sale_id, "date") DO NOTHING;
+ON CONFLICT (sale_id, "date") DO NOTHING;
