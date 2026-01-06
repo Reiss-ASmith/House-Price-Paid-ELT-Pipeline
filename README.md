@@ -75,6 +75,7 @@ house_data.house_price_paid
 docker-compose.yml
 data/
   README.md
+  local_authority_districts_map.csv
 README.md
 
 ---
@@ -104,7 +105,7 @@ Run the SQL scripts in the following order using the VS Code PostgreSQL extensio
 The pipeline exposes SQL views that provide:
 - median house prices by year
 - median prices by district and county
-- transaction counts over time
+- sale counts over time
 
 These views are intended to be queried directly or used as a data source for BI tools.
 
