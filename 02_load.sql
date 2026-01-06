@@ -10,7 +10,8 @@ INSERT INTO house_data.districts(lad23cd, district, county_id)
 SELECT DISTINCT lad.LAD23CD, r.district, co.county_id
 FROM raw_house_data.house_price_paid AS r
 JOIN house_data.counties AS co ON co.county = r.county
-JOIN raw_house_data.local_authority_districts_map AS lad ON UPPER(TRIM(lad.LAD23NM)) = UPPER(TRIM(r.district));
+JOIN raw_house_data.local_authority_districts_map AS lad ON UPPER(TRIM(lad.LAD23NM)) = UPPER(TRIM(r.district))
+ON CONFLICT (lad23cd) DO NOTHING;
 
 --inserts data into the property_types table
 INSERT INTO house_data.property_types(property_type, property_type_code)
@@ -40,4 +41,4 @@ d.district_id,
 r.tenure
 FROM raw_house_data.house_price_paid AS r 
 JOIN house_data.districts as d ON UPPER(TRIM(d.district)) = UPPER(TRIM(r.district))
-ON CONFLICT (r.sale_id) DO NOTHING;
+ON CONFLICT (r.sale_id, "date") DO NOTHING;
