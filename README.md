@@ -64,21 +64,7 @@ house_data.house_price_paid
 
 ---
 
-## Project Structure
 
-.
-00_schema.sql
-01_extract.sql
-02_load.sql
-03_transformation_views.sql
-99_reset.sql
-docker-compose.yml
-data/
-  README.md
-  local_authority_districts_map.csv
-README.md
-
----
 
 ## How to Run the Pipeline
 
