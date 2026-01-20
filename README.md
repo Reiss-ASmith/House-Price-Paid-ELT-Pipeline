@@ -92,9 +92,23 @@ The pipeline exposes SQL views that provide:
 - median house prices by year
 - median prices by district and county
 - sale counts over time
+- monthly district-level median price rankings
 
-These views are intended to be queried directly or used as a data source for BI tools.
+### Monthly Median Price Rankings (Window Functions)
 
+A dedicated analytical view calculates the **monthly median house price per district** and ranks districts **within each calendar month**.
+
+This view demonstrates:
+- use of a CTE
+- use of `PERCENTILE_CONT` to calculate medians
+- correct year–month grouping using `DATE_TRUNC('month', date)`
+- SQL window functions (`DENSE_RANK`) for intra-month ranking
+- reusable view-based transformations for downstream analytics
+
+Example use cases include identifying:
+- the most expensive and most affordable districts each month
+- relative price changes over time
+- ranked outputs suitable for visualisation tools such as Power BI
 ---
 
 ## Design Notes
