@@ -124,7 +124,7 @@ monthly district price rankings based on SQL window functions
 
 The Power BI report connects to the database using Import mode and reflects the latest available data at refresh time.
 
-Dashboard screenshots for each report page are available in the 'powerbi/Screenshots' directory
+Dashboard screenshots for each report page are available in the `powerbi/Screenshots` directory
 
 Note: Recent years may not include all months due to publication and registration delays in HM Land Registry data.
 ---
