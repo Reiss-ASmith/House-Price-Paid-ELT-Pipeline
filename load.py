@@ -15,7 +15,7 @@ def create_db_schema():
 def copy_complete_data():
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("TRUNCATE TABLE raw_house_data.house_price_paid")
+            cur.execute("TRUNCATE TABLE raw_house_data.house_price_paid;")
             with open("./data/pp-complete.csv", "r", encoding="utf-8", newline="") as complete_data:
                 cur.copy_expert(
                     """
@@ -25,3 +25,16 @@ def copy_complete_data():
                     """, complete_data
                 )
         conn.commit()
+
+def copy_map_data():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("TRUNCATE TABLE raw_house_data.local_authority_districts_map;")
+            with open("./data/local_authority_districts_map.csv", "r", encoding="utf-8", newline="") as map:
+                cur.copy_expert(
+                    """
+                    COPY raw_house_data.local_authority_districts_map
+                    FROM STDIN
+                    WITH (FORMAT csv, HEADER true)
+                    """, map
+                )
