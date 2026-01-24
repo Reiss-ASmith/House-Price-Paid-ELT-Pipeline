@@ -38,3 +38,4 @@ def copy_map_data():
                     WITH (FORMAT csv, HEADER true)
                     """, local_map
                 )
+        conn.commit()
