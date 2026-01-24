@@ -1,5 +1,7 @@
 #data
 data/pp-complete.csv
+__pycache__/
+*.pyc
 
 #secrets
 .env
