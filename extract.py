@@ -3,7 +3,7 @@ import requests
 complete_data_url = "http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-complete.csv"
 
 def download_complete_data_to_disk():
-    file_path = "/data/pp-complete.csv"
+    file_path = "/imports/pp-complete.csv"
     with requests.get(complete_data_url, stream=True, timeout=120) as response:
         response.raise_for_status()
 
