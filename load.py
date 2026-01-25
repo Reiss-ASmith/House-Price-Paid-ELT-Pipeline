@@ -26,6 +26,18 @@ def copy_complete_data():
                 )
         conn.commit()
 
+def copy_monthly_update_data():
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            with open("./data/pp-monthly-update-new-version.csv") as monthly_update:
+                cur.copy_expert(
+                    """
+                    COPY raw_house_data.house_price_paid
+                    FROM STDIN
+                    WITH (FORMAT csv, HEADER false)
+                    """, monthly_update
+                )
+
 def copy_map_data():
     with get_connection() as conn:
         with conn.cursor() as cur:
