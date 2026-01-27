@@ -41,7 +41,7 @@ def copy_monthly_update_data():
         with conn.cursor() as cur:
             cur.execute("TRUNCATE TABLE raw_house_data.house_price_paid_monthly_update")
             log.info("Copying pp-monthly_update_new_version.csv to raw_house_data.house_price_paid_monthly_update")
-            with open("./data/pp-monthly-update-new-version.csv") as monthly_update:
+            with open("./data/pp-monthly-update-new-version.csv", "r", encoding="utf-8", newline="") as monthly_update:
                 cur.copy_expert(
                     """
                     COPY raw_house_data.house_price_paid_monthly_update
