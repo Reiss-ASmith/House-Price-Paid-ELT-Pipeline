@@ -7,6 +7,7 @@ log = logging.getLogger(__name__)
 def reset_database():
     log.info("Attempting to reset database")
     with get_connection() as conn:
-        with conn.cursor as cur:
+        with conn.cursor() as cur:
             run_sql_file(cur, "99_reset.sql")
+    conn.commit()
     log.info("Reset complete")

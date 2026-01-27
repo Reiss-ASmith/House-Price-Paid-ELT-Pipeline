@@ -17,6 +17,8 @@ from log import setup_logging
 log = logging.getLogger(__name__)
 
 def main():
+    setup_logging("INFO")
+    log.info("Pipeline runner started")
     while True:
         decision = input(
             "Choose an option:\n"
