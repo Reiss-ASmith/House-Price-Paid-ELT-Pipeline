@@ -26,21 +26,23 @@ def main():
             "q) Quit\n"
             "> "
         ).strip().lower()
-
-        if decision == "1":
-            complete_data_pipeline()
-            break
-        elif decision == "2":
-            monthly_update_pipeline()
-            break
-        elif decision == "3":
-            reset()
-            break
-        elif decision in {"q", "quit", "exit"}:
-            print("Exiting.")
-            break
-        else:
-            print("That is not a valid command.")
+        try:
+            if decision == "1":
+                complete_data_pipeline()
+                break
+            elif decision == "2":
+                monthly_update_pipeline()
+                break
+            elif decision == "3":
+                reset()
+                break
+            elif decision in {"q", "quit", "exit"}:
+                log.info("Exiting.")
+                break
+            else:
+                print("That is not a valid command.")
+        except Exception:
+            log.exception("Pipeline failed")
 
 
 def complete_data_pipeline():
